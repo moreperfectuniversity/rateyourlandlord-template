@@ -1,135 +1,69 @@
-# [Rate Your Landlord — Template Repository]
+# Rate Your Landlord
 
-A community platform for tenants to search, review, and rate landlords. Users can submit reviews and add new landlords, and admins can moderate landlords and reviews.
+Rate Your Landlord is a website template for people to share reviews about landlords and rental properties. It includes example landlord and review data, account screens, and an admin area.
 
-## Tech Stack
+## Run the demo on Windows
 
-- **Framework:** React 19 + TypeScript
-- **Routing:** React Router v7
-- **Backend:** Supabase (PostgreSQL + Auth + Storage)
-- **Build tool:** Vite
-- **Testing:** Vitest + Testing Library
+These steps start a local demo on your own computer. The demo uses made-up examples; it does not connect to a real database or save changes.
 
-## Project Structure
+1. **Download Node.js.** Open your web browser, click the address bar, type `https://nodejs.org/`, and press Enter. On the Node.js website, choose the Windows installer for Node.js 20 (LTS means long-term support) and download it.
 
-```
-App.tsx               # Root component, wires up service layer + routing
-pages/                # One file per route
-components/           # Shared UI components (Header, Footer, cards, forms)
-context/              # React context providers (Auth, Data, Services)
-services/             # Service layer
-  interfaces.ts       # IApiService / IAuthService interfaces
-  SupabaseApiService.ts
-  SupabaseAuthService.ts
-  MockApiService.ts   # Used when Supabase env vars are not set
-  MockAuthService.ts
-  supabase.ts         # Client init + isMockMode flag
-tests/
-  flows/              # Integration-style tests per user flow
-  utils/
-    renderWithProviders.tsx   # Test render helpers
-    createMockServices.ts     # Mock service factories
-  setup.ts            # jest-dom setup
-types.ts              # Shared TypeScript types (Landlord, Review, etc.)
-init.sql              # Database schema
-```
+   **You should see:** a Windows installer file ending in `.msi` in your Downloads folder. The website's buttons may change. **TO CONFIRM:** if the page does not offer Node.js 20, ask the project maintainer which version to use.
 
-## Getting Started
+2. **Install Node.js.** In File Explorer, open **Downloads**. Double-click the Node.js `.msi` file you downloaded. In the setup window, use the default options and click **Next** through the pages, then **Install** and **Finish**. Approve the Windows permission prompt if it appears.
 
-**Prerequisites:** Node.js 18+
+   **You should see:** the installer reports that setup is complete.
 
-1. Install dependencies:
-   ```
-   npm install
-   ```
+3. **Download the project.** Open [this repository on GitHub](https://github.com/moreperfectuniversity/rateyourlandlord-template). Click the green **Code** button, then click **Download ZIP**.
 
-2. Copy the environment template and fill in your values:
-   ```
-   cp .env.local.example .env.local
-   ```
-   Required variables:
-   ```
-   VITE_SUPABASE_URL=https://<your-project>.supabase.co
-   VITE_SUPABASE_ANON_KEY=<your-anon-key>
-   ```
+   **You should see:** a ZIP file for the project in your browser's downloads list.
 
-3. Start the dev server (runs on port 3000):
-   ```
-   npm run dev
-   ```
+4. **Unzip the project.** In File Explorer, open **Downloads**. Right-click the repository ZIP file and choose **Extract All**, then click **Extract**. Open the extracted folder.
 
-> **Demo / mock mode:** If `VITE_SUPABASE_URL` or `VITE_SUPABASE_ANON_KEY` are missing, the app automatically runs in mock mode using in-memory fake data. A yellow banner is shown at the top. This is useful for frontend-only development without a Supabase project.
+   **You should see:** project files, including `package.json`. If you see another folder inside instead, open that inner folder.
 
-## Documentation & Architecture
+5. **Open a terminal in the right folder.** In File Explorer, open the extracted project folder and look for the file named `package.json`. If you do not see that file, open the folder inside until you do. Right-click an empty area in the folder that contains `package.json` and choose **Open in Terminal**.
 
-For comprehensive guides on the project, check the following resources:
-- [Replication & Setup Guide](file:///Ubuntu/home/sebas/coding/ratemylandlord/docs/replication_guide.md) — Step-by-step instructions to configure Supabase (Database, Auth, Storage, SMTP) and host on Cloudflare Pages.
-- [Architecture & Background](file:///Ubuntu/home/sebas/coding/ratemylandlord/docs/architecture.md) — Explains the folder structure, Row Level Security (RLS) model, and testing patterns.
+   **You should see:** a PowerShell window whose prompt names the project folder, not just `Downloads`. If the prompt says `C:\Users\YourName\Downloads>`, you are in the wrong folder: close that window and repeat this step from the folder containing `package.json`. If **Open in Terminal** is missing, see [If something goes wrong](docs/replication_guide.md#if-something-goes-wrong).
 
-The SQL schema and policies are defined in [init.sql](file:///Ubuntu/home/sebas/coding/ratemylandlord/init.sql).
+6. **Check Node.js.** Click after the PowerShell prompt, type `node --version` and press Enter.
 
-## Service Layer
+   **You should see:** a version number starting with `v20`. npm is the package installer included with Node.js; we will use its Windows command file in the next step.
 
-All backend calls go through two interfaces: `IApiService` and `IAuthService` (see `services/interfaces.ts`). The app selects the real Supabase implementations or the mock implementations at startup based on `isMockMode`.
+7. **Install the project packages.** Type exactly `npm.cmd install` and press Enter. Wait for it to finish. Do not type the surrounding backticks or any Markdown markers. `npm.cmd` runs npm without asking PowerShell to run a script.
 
-Tests also use dependency injection to mock services directly rather than mocking fetch/Supabase internals.
+   **You should see:** npm returns to the prompt without an error. If it reports an error, see [If something goes wrong](docs/replication_guide.md#if-something-goes-wrong).
 
-## Testing
+8. **Start the demo.** Type exactly `npm.cmd run dev` and press Enter. Vite (the tool that runs the site during development) starts a local web server, a small program on your computer that makes the site available in your browser. Leave the terminal open.
 
-Tests use **Vitest** with **Testing Library** and run in a **jsdom** environment. There are no network calls in tests — all backend interactions go through the mock service layer.
+   **You should see:** Vite prints a local address, usually `http://localhost:5000`.
 
-### Run tests
+9. **View the website.** Open a browser tab, click the address bar, type the exact local address shown in the terminal, and press Enter.
 
-```bash
-# Watch mode (re-runs on file changes)
-npm test
+   **You should see:** the Rate Your Landlord website with demo data. To stop it, click the terminal and press **Ctrl+C**.
 
-# Single run (CI / one-off)
-npm run test:run
-```
+You do not need to create an account or an environment file to view the demo. Sign-in, registration, and saving information are not available in demo mode. Mapbox provides address suggestions, and Cloudflare Turnstile provides the security check; those features need their own settings, so they may not work in a plain local demo.
 
-### Test structure
+## If something goes wrong
 
-Tests live in `tests/flows/` and are organized by user flow:
+- **PowerShell says running scripts is disabled when you type `npm`:** type `npm.cmd install` and `npm.cmd run dev` instead. Do not change PowerShell's execution policy for this project.
+- **The prompt says `Downloads>` or `npm` says `package.json` is missing:** the terminal is not in the project folder. Close it, then open a terminal from the extracted folder where `package.json` is visible.
+- If `node` is not recognized, close and reopen the terminal. If the command still fails, reinstall Node.js and restart Windows.
+- If `npm.cmd install` reports an error, confirm the computer is online and that the terminal opened in the folder containing `package.json`.
+- If the browser cannot open the site, check that the terminal is still running and use the exact address it printed.
+- If a feature does not work in the demo, it may need a real backend or one of the external services described above.
 
-| File | What it covers |
-|------|----------------|
-| `flow1-search.test.tsx` | Searching and filtering landlords |
-| `flow2-register.test.tsx` | User registration |
-| `flow3-login.test.tsx` | Login / logout |
-| `flow4-submit-review-logged-in.test.tsx` | Submitting a review as a logged-in user |
-| `flow5-submit-review-guest.test.tsx` | Submitting a review as a guest |
-| `flow6-edit-review.test.tsx` | Editing an existing review |
-| `flow7-add-landlord.test.tsx` | Adding a new landlord |
-| `flow8-admin-landlords.test.tsx` | Admin: managing landlord approvals |
-| `flow9-admin-reviews.test.tsx` | Admin: managing review verification |
-| `flow10-admin-delete-restore.test.tsx` | Admin: deleting and restoring reviews |
-| `flow11-reset-password.test.tsx` | Password reset flow |
+See the [setup guide's troubleshooting steps](docs/replication_guide.md#if-something-goes-wrong) for more help.
 
-### Test helpers
+## Make your own website
 
-- **`renderPage(ui, options)`** — renders a single page component inside the full provider tree (Services + Auth + Data + Router).
-- **`renderWithRoutes(routes, options)`** — renders multiple routes, useful for testing navigation between pages.
-- Both helpers accept optional `api` and `auth` overrides so individual tests can customize mock behaviour.
+The [setup guide](docs/replication_guide.md) walks through making your own GitHub copy, preparing Supabase, publishing with Cloudflare Pages, and connecting a domain. The current project can be published as a demo, but it is **not ready for real users or data**: `init.sql` has apparent SQL errors, and the Turnstile widget is not validated on a server. Do not connect real user information until a developer has repaired and reviewed those parts.
 
-Example:
-```tsx
-import { renderPage } from '../utils/renderWithProviders';
-import { createMockApiService } from '../utils/createMockServices';
+## Project guides
 
-it('shows landlord list', async () => {
-  const api = createMockApiService();
-  const { findByText } = renderPage(<MainPage />, { api });
-  expect(await findByText('Some Landlord')).toBeInTheDocument();
-});
-```
+- [Setup guide](docs/replication_guide.md): Windows demo instructions, Supabase and Cloudflare setup, domain connection, troubleshooting, and current production blockers.
+- [How the project is organized](docs/architecture.md): a plain-English overview of the website's main parts.
 
-## Building for Production
+## For maintainers
 
-```bash
-npm run build    # outputs to dist/
-npm run preview  # serve the built output locally
-```
-
-## Contribute:
-To contribute, create a new branch and create a pull request with the main branch 
+`npm run build` creates production files in the `dist/` folder. It does not publish or host the website. Before inviting people to deploy or contribute, maintainers should fix and verify the database setup and automated-test workflow, and add a license that matches the project's intended use. The project owner should choose the license; none is included yet.
